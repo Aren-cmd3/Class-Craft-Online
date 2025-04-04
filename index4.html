@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="Logo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Class Craft</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles4.css">
+</head>
+<body>
+    <header>
+        <img src="Logop.png" alt="Logo" width="60" height="60" />
+        <div class="logo">Class Craft</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="index2.html">SHOP</a></li>
+                <li><a href="about.html">ABOUT US</a></li>
+                <li id="cart-container"><a href="index4.html" class="active" style="background: #b1464a; color: white;">CART <span class="cart-count">0</span></a></li>
+                <li id="dashboard-container">
+                    <img id="dashboard-pic" src="default-avatar.png" alt="Profile Picture" class="profile-circle" style="width: 60px; height: 60px; border-radius: 50%;">
+                    <a href="index3.html" id="dashboard-link">LOG IN</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="cart-page">
+            <h1 class="animated-title">Your Shopping Cart</h1>
+            <div class="cart-banner">
+                <div class="banner-item">
+                    <span class="icon">🚚</span>
+                    <p>Free Shipping on Orders Over ₱1000</p>
+                    <span class="badge">SAVE MORE!</span>
+                </div>
+                <div class="banner-item">
+                    <span class="icon">⚡</span>
+                    <p>Fast & Secure Checkout</p>
+                    <span class="badge">SAFE & SECURE</span>
+                </div>
+                <div class="banner-item">
+                    <span class="icon">💫</span>
+                    <p>Quality Guaranteed</p>
+                    <span class="badge">PREMIUM</span>
+                </div>
+            </div>
+
+            <div class="cart-container">
+                <script>
+                    // Update cart count on load
+                    const cartCount = JSON.parse(localStorage.getItem("cart"))?.reduce((total, item) => total + item.quantity, 0) || 0;
+                    document.querySelector(".cart-count").textContent = cartCount;
+
+<script src="script4.js"></script>
+
+                </script>
+                <div class="cart-items" id="cart-items">
+                    <!-- Cart items will be added here dynamically -->
+                </div>
+
+                <div class="cart-summary">
+                    <h2>Order Summary</h2>
+                    <div class="summary-line">
+                        <span>Subtotal</span>
+                        <span>₱<span id="total-price">0.00</span></span>
+                    </div>
+                    <div class="voucher-buttons">
+                        <button id="show-voucher" class="voucher-option-btn">Use Voucher Code</button>
+                        <button id="no-voucher" class="voucher-option-btn no-thanks">No Thanks</button>
+                    </div>
+                    <div class="voucher-container" style="display: none;">
+                        <div class="voucher-input">
+                            <input type="text" id="voucher-code" placeholder="Enter voucher code">
+                            <button id="apply-voucher" onclick="applyVoucher()">Apply</button>
+                        </div>
+                        <div id="voucher-message"></div>
+                    </div>
+                    <div class="summary-line" id="discount-line" style="display: none;">
+                        <span>Discount (50%)</span>
+                        <span>-₱<span id="discount-amount">0.00</span></span>
+                    </div>
+                    <div class="summary-line total-line">
+                        <span><strong>Total</strong></span>
+                        <span><strong>₱<span id="final-total">0.00</span></strong></span>
+                    </div>
+                    <button id="proceed-checkout" class="checkout-button" onclick="proceedToCheckout()" disabled>Proceed to Checkout</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById("cart-items");
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const totalPriceElement = document.getElementById("total-price");
+            const finalTotalElement = document.getElementById("final-total");
+            let totalPrice = 0;
+
+            // Clear existing items
+            cartItemsContainer.innerHTML = '';
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                        <div class="empty-cart-container">
+                            <img src="EmptyCart.png" alt="Empty Cart" class="empty-cart-image">
+                            <h2>Your shopping cart is empty</h2>
+                            <p>Looks like you haven't added anything to your cart yet.</p>
+                            <a href="index2.html" class="start-shopping-btn">Start Shopping</a>
+                        </div>`;
+                totalPriceElement.textContent = "0.00";
+                finalTotalElement.textContent = "0.00";
+                document.querySelector(".cart-count").textContent = "0";
+
+                // Show animation after a short delay
+                setTimeout(() => {
+                    const emptyCartContainer = document.querySelector('.empty-cart-container');
+                    if (emptyCartContainer) {
+                        emptyCartContainer.classList.add('animated');
+                    }
+                }, 300);
+                return;
+            }
+
+            let cartTotal = 0;
+
+            cart.forEach((item, index) => {
+                const itemPrice = parseFloat(item.price.replace('₱', ''));
+                const itemTotal = itemPrice * item.quantity;
+                totalPrice += itemTotal;
+
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                itemElement.innerHTML = `
+                    <div class="cart-item-content">
+                        <img src="${item.img}" alt="${item.name}" class="cart-item-image">
+                        <div class="cart-item-details">
+                            <h3>${item.name}</h3>
+                            <p class="item-price">₱${itemPrice.toFixed(2)}</p>
+                            <div class="quantity-controls">
+                                <button onclick="updateQuantity(${index}, -1)">-</button>
+                                <button class="remove-btn" onclick="removeItem(${index})">×</button>
+                                <span>${item.quantity}</span>
+                                <button onclick="updateQuantity(${index}, 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="cart-item-total">
+                            <p>Total: ₱${itemTotal.toFixed(2)}</p>
+                        </div>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+            });
+
+            totalPriceElement.textContent = totalPrice.toFixed(2);
+            document.getElementById("cart-count").textContent = cart.reduce((total, item) => total + item.quantity, 0);
+
+            // Update final total
+            const finalTotal = document.getElementById("final-total");
+            if (finalTotal) {
+                if (voucherApplied) {
+                    const discount = (totalPrice * (discountPercent / 100)).toFixed(2);
+                    document.getElementById("discount-amount").textContent = discount;
+                    const discountedTotal = (totalPrice - discount).toFixed(2);
+                    finalTotal.textContent = discountedTotal;
+                    localStorage.setItem("finalTotal", discountedTotal);
+                } else {
+                    finalTotal.textContent = totalPrice.toFixed(2);
+                    localStorage.setItem("finalTotal", totalPrice.toFixed(2));
+                }
+            }
+
+            // Always save the cart total to localStorage
+            localStorage.setItem("cartTotal", totalPrice.toFixed(2));
+        }
+
+        function updateQuantity(index, change) {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            if (cart[index].quantity + change > 0) {
+                cart[index].quantity += change;
+                localStorage.setItem("cart", JSON.stringify(cart));
+                updateCartUI();
+            }
+        }
+
+        function removeItem(index) {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCartUI();
+        }
+
+        function showEmptyCartNotification() {
+        // Use the new notification system
+        const notification = showCustomNotification({
+            title: 'Your Cart is Empty',
+            message: 'Looks like you haven\'t added any items to your cart yet.',
+            type: 'info',
+            icon: '🛒',
+            duration: 0, // Don't auto-close
+            onClose: null
+        });
+        
+        // Add shop now button
+        const content = notification.element.querySelector('.notification-content');
+        const shopButton = document.createElement('button');
+        shopButton.className = 'shop-now-button';
+        shopButton.innerText = 'Shop Now';
+        shopButton.style.marginTop = '10px';
+        shopButton.style.padding = '8px 15px';
+        shopButton.style.background = '#b1464a';
+        shopButton.style.color = 'white';
+        shopButton.style.border = 'none';
+        shopButton.style.borderRadius = '20px';
+        shopButton.style.cursor = 'pointer';
+        
+        shopButton.addEventListener('click', function() {
+            window.location.href = 'index2.html';
+        });
+        
+        content.appendChild(shopButton);
+    }
+
+    function closeNotification() {
+        const overlay = document.querySelector('.notification-overlay');
+        const notification = document.querySelector('.empty-cart-notification');
+
+        if (overlay && notification) {
+            overlay.style.opacity = '0';
+            notification.style.transform = 'scale(0.8)';
+            notification.style.opacity = '0';
+
+            // Remove element after animation completes
+            setTimeout(() => {
+                document.body.removeChild(overlay);
+            }, 300);
+        }
+    }
+
+    // Global variables to track voucher status
+    let voucherApplied = false;
+    let discountPercent = 0;
+    let originalTotal = 0;
+
+    function applyVoucher() {
+        const voucherCode = document.getElementById("voucher-code").value.trim();
+        const voucherMessage = document.getElementById("voucher-message");
+        const discountLine = document.getElementById("discount-line");
+        const discountAmount = document.getElementById("discount-amount");
+        const finalTotal = document.getElementById("final-total");
+        const totalPrice = parseFloat(document.getElementById("total-price").textContent);
+
+        originalTotal = totalPrice;
+
+        // Valid voucher codes (case sensitive)
+        const validCodes = ["crafted", "Class2025"];
+
+        // Get used vouchers from localStorage
+        const usedVouchers = JSON.parse(localStorage.getItem("usedVouchers")) || [];
+
+        // Check if voucher code is valid and hasn't been used before
+        if (validCodes.includes(voucherCode) && !usedVouchers.includes(voucherCode)) {
+            // Apply 50% discount
+            discountPercent = 50;
+            const discount = (totalPrice * 0.5).toFixed(2);
+            const newTotal = (totalPrice * 0.5).toFixed(2);
+
+            // Update UI
+            discountAmount.textContent = discount;
+            finalTotal.textContent = newTotal;
+            discountLine.style.display = "flex";
+
+            // Set success message
+            voucherMessage.textContent = "Voucher applied successfully! 50% discount";
+            voucherMessage.className = "success";
+
+            // Mark voucher as applied
+            voucherApplied = true;
+
+            // Add this code to used vouchers list
+            usedVouchers.push(voucherCode);
+            localStorage.setItem("usedVouchers", JSON.stringify(usedVouchers));
+
+            // Save voucher info to localStorage
+            localStorage.setItem("voucherApplied", "true");
+            localStorage.setItem("discountPercent", discountPercent.toString());
+            localStorage.setItem("discountAmount", discount);
+            localStorage.setItem("finalTotal", newTotal);
+        } else if (usedVouchers.includes(voucherCode)) {
+            // Voucher already used
+            voucherMessage.textContent = "This voucher code has already been used";
+            voucherMessage.className = "error";
+
+            // Reset any previously applied voucher
+            discountLine.style.display = "none";
+            finalTotal.textContent = totalPrice.toFixed(2);
+            voucherApplied = false;
+            discountPercent = 0;
+
+            // Clear voucher info from localStorage
+            localStorage.removeItem("voucherApplied");
+            localStorage.removeItem("discountPercent");
+            localStorage.removeItem("discountAmount");
+            localStorage.removeItem("finalTotal");
+        } else {
+            // Invalid voucher code
+            voucherMessage.textContent = "Invalid voucher code";
+            voucherMessage.className = "error";
+
+            // Reset any previously applied voucher
+            discountLine.style.display = "none";
+            finalTotal.textContent = totalPrice.toFixed(2);
+            voucherApplied = false;
+            discountPercent = 0;
+
+            // Clear voucher info from localStorage
+            localStorage.removeItem("voucherApplied");
+            localStorage.removeItem("discountPercent");
+            localStorage.removeItem("discountAmount");
+            localStorage.removeItem("finalTotal");
+        }
+    }
+
+    function updateFinalTotal() {
+        const totalPrice = parseFloat(document.getElementById("total-price").textContent);
+        const finalTotal = document.getElementById("final-total");
+
+        if (voucherApplied) {
+            const discount = (totalPrice * (discountPercent / 100)).toFixed(2);
+            document.getElementById("discount-amount").textContent = discount;
+            finalTotal.textContent = (totalPrice - discount).toFixed(2);
+        } else {
+            finalTotal.textContent = totalPrice.toFixed(2);
+        }
+    }
+
+    function proceedToCheckout() {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const finalTotal = parseFloat(document.getElementById("final-total").textContent);
+        const voucherButtons = document.querySelector('.voucher-buttons');
+
+        if (cart.length === 0) {
+            showEmptyCartNotification();
+            return false;
+        }
+
+        if (finalTotal <= 0) {
+            showInvalidTotalNotification();
+            return false;
+        }
+
+        // Check if voucher choice has been made (buttons are hidden after a choice)
+        if (voucherButtons.style.display !== 'none') {
+            showVoucherChoiceNotification();
+            return false;
+        }
+
+        // Only proceed if all validations pass
+        window.location.href = "index8.html";
+        return true;
+    }
+
+    function showVoucherChoiceNotification() {
+        // Use the new notification system
+        showCustomNotification({
+            title: 'Please Make a Choice',
+            message: 'Please select either "Use Voucher Code" or "No Thanks" before proceeding to checkout.',
+            type: 'warning',
+            icon: '🏷️',
+            duration: 5000
+        });
+    }
+
+    function closeVoucherNotification() {
+        const overlay = document.querySelector('.notification-overlay');
+        const notification = document.querySelector('.voucher-choice-notification');
+
+        if (overlay && notification) {
+            overlay.style.opacity = '0';
+            notification.style.transform = 'scale(0.8)';
+            notification.style.opacity = '0';
+
+            // Remove element after animation completes
+            setTimeout(() => {
+                if (overlay && overlay.parentNode) {
+                    document.body.removeChild(overlay);
+                }
+            }, 300);
+        }
+    }
+
+    function showInvalidTotalNotification() {
+        // Use the new notification system
+        showCustomNotification({
+            title: 'Invalid Total Price',
+            message: 'The total price appears to be zero or invalid. Please ensure your cart items have valid prices before proceeding to checkout.',
+            type: 'error',
+            icon: '⚠️',
+            duration: 5000
+        });
+    }
+
+    function closeInvalidTotalNotification() {
+        const overlay = document.querySelector('.notification-overlay');
+        const notification = document.querySelector('.invalid-total-notification');
+
+        if (overlay && notification) {
+            overlay.style.opacity = '0';
+            notification.style.transform = 'scale(0.8)';
+            notification.style.opacity = '0';
+
+            // Remove element after animation completes
+            setTimeout(() => {
+                if (overlay && overlay.parentNode) {
+                    document.body.removeChild(overlay);
+                }
+            }, 300);
+        }
+    }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const user = JSON.parse(localStorage.getItem("loggedInUser"));
+            const dashboardLink = document.querySelector("#dashboard-link");
+            const dashboardPic = document.getElementById("dashboard-pic");
+            const proceedCheckoutButton = document.getElementById("proceed-checkout");
+            const voucherButtons = document.querySelector('.voucher-buttons');
+
+            // Set up voucher option buttons
+            const showVoucherBtn = document.getElementById("show-voucher");
+            const noVoucherBtn = document.getElementById("no-voucher");
+            const voucherContainer = document.querySelector(".voucher-container");
+
+            showVoucherBtn.addEventListener("click", function() {
+                voucherContainer.style.display = "block";
+                showVoucherBtn.style.display = "none";
+                noVoucherBtn.style.display = "none";
+                voucherButtons.style.display = "none"; // Hide the buttons after selection
+                proceedCheckoutButton.disabled = false; // Enable checkout button
+            });
+
+            noVoucherBtn.addEventListener("click", function() {
+                voucherContainer.style.display = "none";
+                showVoucherBtn.style.display = "none";
+                noVoucherBtn.style.display = "none";
+                voucherButtons.style.display = "none"; // Hide the buttons after selection
+                proceedCheckoutButton.disabled = false; // Enable checkout button
+
+                // Reset any previously applied voucher
+                const totalPrice = parseFloat(document.getElementById("total-price").textContent);
+                document.getElementById("discount-line").style.display = "none";
+                document.getElementById("final-total").textContent = totalPrice.toFixed(2);
+                voucherApplied = false;
+                discountPercent = 0;
+
+                // Clear voucher info from localStorage
+                localStorage.removeItem("voucherApplied");
+                localStorage.removeItem("discountPercent");
+                localStorage.removeItem("discountAmount");
+                localStorage.setItem("finalTotal", totalPrice.toFixed(2));
+            });
+
+            if (!user) {
+                window.location.href = "index3.html";
+                return;
+            }
+
+            if (user.profilePic) {
+                dashboardPic.src = user.profilePic;
+            }
+            const firstName = user.name.split(" ")[0];
+            dashboardLink.textContent = `Hi, ${firstName}`;
+            dashboardLink.href = "dashboard.html";
+
+            // Initialize voucher status
+            voucherApplied = localStorage.getItem("voucherApplied") === "true";
+            discountPercent = parseInt(localStorage.getItem("discountPercent") || "0");
+
+            // Show discount line if voucher was previously applied
+            if (voucherApplied) {
+                document.getElementById("discount-line").style.display = "flex";
+                document.getElementById("voucher-message").textContent = "Voucher applied! 50% discount";
+                document.getElementById("voucher-message").className = "success";
+            }
+
+            updateCartUI();
+
+            // Add event listener for when user leaves the page
+            window.addEventListener('beforeunload', function() {
+                const finalTotal = document.getElementById("final-total").textContent;
+                const totalPrice = document.getElementById("total-price").textContent;
+
+                // Save current cart state
+                localStorage.setItem("cartTotal", totalPrice);
+                localStorage.setItem("finalTotal", finalTotal);
+
+                if (voucherApplied) {
+                    const discount = document.getElementById("discount-amount").textContent;
+                    localStorage.setItem("discountAmount", discount);
+                }
+            });
+        });
+    </script>
+    <footer>
+        <p>@2025 Class Craft</p>
+        <div class="footer-links">
+            <a href="about.html" class="about-link">About Us</a>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="Logo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles6.css">
+</head>
+<body>
+    <main>
+        <div class="forgot-password-container">
+        <h2>Forgot Password</h2>
+        <p>Enter your email to receive an OTP for password reset.</p>
+        <input type="email" id="forgot-email" placeholder="Email" required>
+        <button onclick="sendResetLink()" class="black-button">Send OTP</button>
+        <p id="confirmation-message"></p>
+
+        <!-- OTP Verification Section -->
+        <div id="otp-section" style="display: none;">
+            <p>Enter the OTP sent to your email:</p>
+            <input type="text" id="otp-input" placeholder="Enter OTP" required>
+            <button onclick="verifyOTP()" class="black-button">Verify OTP</button>
+        </div>
+
+        <!-- Password Reset Section -->
+        <div id="password-section" style="display: none;">
+            <p>Enter a new password (8+ characters with letters & numbers):</p>
+            <input type="password" id="new-password" placeholder="New Password" required>
+            <button onclick="resetPassword()" class="black-button">Reset Password</button>
+        </div>
+
+        <div class="links">
+            <a href="index3.html">Back to Login</a>
+        </div>
+        </div>
+    </main>
+
+    <script src="script6.js"></script>
+    <footer>
+        <p>@2025 Class Craft</p>
+        <div class="footer-links">
+            <a href="about.html" class="about-link">About Us</a>
+        </div>
+    </footer>
+</body>
+</html>

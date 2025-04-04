@@ -1,0 +1,205 @@
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(-45deg, #f4e2d8, #e6d2c3, #f8d5cb, #edd3c4);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.forgot-password-container {
+  animation: fadeIn 0.5s ease-out;
+}
+
+#otp-section, #password-section {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.forgot-password-container {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 350px;
+  backdrop-filter: blur(10px);
+}
+
+h2 {
+  color: #6b4f4f;
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+p {
+  color: #6b4f4f;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 2px solid #f4e2d8;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+input:focus {
+  border-color: #b1464a;
+  outline: none;
+}
+
+.black-button {
+  background: #b1464a;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+  font-weight: bold;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.black-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(177, 70, 74, 0.3);
+}
+
+.links {
+  margin-top: 20px;
+}
+
+.links a {
+  text-decoration: none;
+  color: #6b4f4f;
+  display: block;
+  margin: 10px 0;
+  transition: color 0.3s;
+}
+
+.links a:hover {
+  color: #b1464a;
+}
+
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transform: translateX(150%);
+  transition: transform 0.5s ease;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.notification.show {
+  transform: translateX(0);
+}
+
+.notification.success {
+  border-left: 4px solid #4CAF50;
+}
+
+.notification.error {
+  border-left: 4px solid #f44336;
+}
+
+.notification-icon {
+  font-size: 20px;
+}
+
+.notification-message {
+  color: #333;
+  font-size: 14px;
+  margin: 0;
+}
+
+footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #f1f1f1;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    main {
+        min-height: calc(100vh - 60px);
+        padding: 10px;
+    }
+
+    .forgot-password-container {
+        width: 90%;
+        max-width: none;
+        padding: 25px 15px;
+        margin: 10px auto;
+        border-radius: 15px;
+    }
+
+    h2 {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    input {
+        padding: 12px;
+        font-size: 16px;
+        margin: 8px 0;
+    }
+
+    .black-button {
+        padding: 14px;
+        font-size: 16px;
+        margin-top: 15px;
+    }
+
+    #otp-section, #password-section {
+        margin-top: 20px;
+    }
+
+    .links {
+        margin-top: 25px;
+    }
+
+    .links a {
+        padding: 10px;
+        font-size: 16px;
+    }
+}

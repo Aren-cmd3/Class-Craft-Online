@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="Logo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Class Craft</title>
+    <link rel="stylesheet" href="styles8.css">
+</head>
+<body>
+    <header>
+        <img src="Logop.png" alt="Logo" width="60" height="60" />
+        <div class="logo">Class Craft</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="index2.html">SHOP</a></li>
+                <li><a href="about.html">ABOUT US</a></li>
+                <li><a href="index4.html" id="cart-link">CART <span class="cart-count">0</span></a></li>
+                <li id="dashboard-container">
+                    <img id="dashboard-pic" src="default-avatar.png" alt="Profile Picture" class="profile-circle" style="width: 60px; height: 60px; border-radius: 50%;">
+                    <a href="index3.html" id="dashboard-link">LOG IN</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+
+
+    <main class="checkout-container">
+        <div class="checkout-content">
+            <div class="product-summary">
+                <h2>Order Summary</h2>
+                <div class="product-preview">
+                    <!-- Cart items will be displayed here -->
+                </div>
+                <div class="order-total">
+                    <div class="subtotal">
+                        <span>Subtotal</span>
+                        <span id="subtotal">₱0.00</span>
+                    </div>
+                    <div id="discount-row" style="display: none; color: #4CAF50;" class="summary-line">
+                        <span>Discount:</span>
+                        <span id="discount-amount">-₱0.00</span>
+                    </div>
+                    <div class="shipping">
+                        <span>Shipping</span>
+                        <span>FREE</span>
+                    </div>
+                    <div class="total">
+                        <span>Total</span>
+                        <span id="total">₱0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <form id="checkout-form" class="checkout-form" action="https://formsubmit.io/send/classcraftbot@gmail.com" method="POST">
+                <h2>Shipping Information</h2>
+                <div class="form-group">
+                    <input type="text" id="name" name="name" required>
+                    <label for="name">Full Name</label>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" name="email" required 
+                           pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" 
+                           title="Please enter a valid email address (e.g., example@domain.com)">
+                    <label for="email">Email Address</label>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="phone" name="phone" required 
+                           pattern="[0-9]{11}" 
+                           title="Please enter a valid 11-digit phone number">
+                    <label for="phone">Phone Number</label>
+                </div>
+                <div class="form-group">
+                    <textarea id="address" name="address" required></textarea>
+                    <label for="address">Shipping Address</label>
+                </div>
+                
+
+                <div class="payment-section">
+                    <h2>Payment Method</h2>
+                    <div class="payment-options">
+                        <label class="payment-option">
+                            <input type="radio" name="payment" value="cod" checked>
+                            <span class="radio-custom"></span>
+                            <span>Cash on Delivery</span>
+                        </label>
+                        <label class="payment-option payment-error">
+                            <input type="radio" name="payment" value="gcash" disabled>
+                            <span class="radio-custom"></span>
+                            <span>GCash</span>
+                            <div class="payment-error-message">GCash payment option is currently unavailable. Please use Cash on Delivery instead.</div>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="place-order-btn">
+                    Place Order
+                    <span class="btn-icon">→</span>
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>@2025 Class Craft</p>
+        <div class="footer-links">
+            <a href="about.html" class="about-link">About Us</a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+        (function() {
+            emailjs.init("DceEzWwmYn-Yp0ADD");
+        })();
+    </script>
+    <script src="script8.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check if user is logged in and update login display
+            let user = JSON.parse(localStorage.getItem("loggedInUser"));
+            const dashboardLink = document.querySelector("#dashboard-link");
+            const dashboardPic = document.getElementById("dashboard-pic");
+
+            if (user) {
+                let firstName = user.name.split(" ")[0];
+                dashboardLink.textContent = `Hi, ${firstName}`;
+                dashboardLink.href = "dashboard.html";
+                if (user.profilePic) {
+                    dashboardPic.src = user.profilePic;
+                }
+            }
+
+            const applyVoucherButton = document.getElementById('apply-voucher');
+            const voucherCodeInput = document.getElementById('voucher-code');
+            const discountRow = document.getElementById('discount-row');
+            const subtotalSpan = document.getElementById('subtotal');
+            const discountAmountSpan = document.getElementById('discount-amount');
+            const totalSpan = document.getElementById('total');
+
+            applyVoucherButton.addEventListener('click', () => {
+                const voucherCode = voucherCodeInput.value.toLowerCase();
+                if (voucherCode === 'crafted' || voucherCode === 'class2025') {
+                    const subtotal = parseFloat(subtotalSpan.textContent.replace('₱', ''));
+                    const discount = subtotal * 0.5;
+                    const total = subtotal - discount;
+
+                    discountRow.style.display = 'block';
+                    discountAmountSpan.textContent = `-₱${discount.toFixed(2)}`;
+                    totalSpan.textContent = `₱${total.toFixed(2)}`;
+                } else {
+                    alert('Invalid voucher code.');
+                }
+            });
+        });
+    </script>
+
+<!-- Print Receipt Modal -->
+<div id="receipt-modal" class="modal">
+    <div class="modal-content receipt-content">
+        <span class="close" onclick="closeReceiptModal()">&times;</span>
+        <div class="receipt-container" id="receipt-to-print">
+            <div class="receipt-header">
+                <img src="Logop.png" alt="Logo" width="60" height="60" />
+                <h2>Class Craft</h2>
+                <p>Order Confirmation</p>
+                <p class="receipt-date" id="receipt-date">Date: </p>
+            </div>
+            <div class="receipt-shipping">
+                <h3>Shipping Information</h3>
+                <p id="receipt-name">Name: </p>
+                <p id="receipt-email">Email: </p>
+                <p id="receipt-phone">Phone: </p>
+                <p id="receipt-address">Address: </p>
+            </div>
+            <div class="receipt-items">
+                <h3>Order Summary</h3>
+                <div id="receipt-items-list">
+                    <!-- Items will be populated here -->
+                </div>
+            </div>
+            <div class="receipt-summary">
+                <div class="receipt-line">
+                    <span>Subtotal:</span>
+                    <span id="receipt-subtotal">₱0.00</span>
+                </div>
+                <div class="receipt-line" id="receipt-discount-row" style="display: none;">
+                    <span>Discount:</span>
+                    <span id="receipt-discount">-₱0.00</span>
+                </div>
+                <div class="receipt-line">
+                    <span>Shipping:</span>
+                    <span>FREE</span>
+                </div>
+                <div class="receipt-line total">
+                    <span>Total:</span>
+                    <span id="receipt-total">₱0.00</span>
+                </div>
+            </div>
+            <div class="receipt-payment">
+                <h3>Payment Method</h3>
+                <p id="receipt-payment-method">Cash on Delivery</p>
+            </div>
+            <div class="receipt-footer">
+                <p>Thank you for shopping with Class Craft!</p>
+                <p>We appreciate your business and hope you enjoy your purchase!</p>
+            </div>
+        </div>
+        <button id="print-receipt-btn" class="place-order-btn">
+            Print Receipt
+            <span class="btn-icon">🖨️</span>
+        </button>
+    </div>
+</div>
+
+</body>
+</html>

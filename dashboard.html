@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="Logo.png">
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <header>
+        <img src="Logop.png" alt="Logo" width="60" height="60" />
+        <div class="logo">Class Craft</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="index2.html">SHOP</a></li>
+                <li><a href="about.html">ABOUT US</a></li>
+                <li><a href="index4.html" id="cart-link">CART <span class="cart-count">0</span></a></li>
+                <li>
+                    <a href="dashboard.html" class="active" style="background: #b1464a; color: white;">DASHBOARD</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="dashboard-wrapper">
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <span class="stat-icon">🛍️</span>
+                <h3>Total Orders</h3>
+                <p class="stat-number">0</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">💰</span>
+                <h3>Total Spent</h3>
+                <p class="stat-number">₱0.00</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">⭐</span>
+                <h3>Reward Points</h3>
+                <p class="stat-number">0</p>
+            </div>
+        </div>
+        
+        
+
+        <div class="dashboard-container">
+            <div class="profile-section">
+                <div class="profile-header">
+                    <label for="profile-pic-upload" class="profile-pic-label">
+                        <img id="profile-pic" src="guest.png" alt="Profile Picture">
+                        <div class="upload-overlay">
+                            <span>Update Photo</span>
+                        </div>
+                    </label>
+                    <input type="file" id="profile-pic-upload" accept="image/*" style="display: none;">
+                    <h2 id="user-name">Welcome!</h2>
+                </div>
+                <div class="profile-info">
+                    <!-- User info will be populated by JavaScript -->
+                </div>
+                <button class="logout-btn" onclick="logout()" style="background: #b1464a; color: white; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; margin-top: 20px; font-weight: bold; width: 100%; transition: all 0.3s ease;">LOGOUT</button>
+            </div>
+
+            <div class="orders-section">
+                <!-- Order content will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Purchase History Modal -->
+    <div id="history-modal" class="modal">
+        <div class="modal-content history-content">
+            <span class="close" onclick="closeHistoryModal()">&times;</span>
+            <h2>Purchase History</h2>
+            <div class="purchase-list" id="purchase-history-list">
+
+        <!-- Purchase history will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Address Modal -->
+    <div id="address-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddressModal()">&times;</span>
+            <h3 id="modal-title">Add New Address</h3>
+            <div class="form-group">
+                <input type="text" id="address-firstname" placeholder="First Name">
+                <input type="text" id="address-middlename" placeholder="Middle Name">
+                <input type="text" id="address-lastname" placeholder="Last Name">
+                <input type="text" id="address-phone" placeholder="Phone Number">
+                <textarea id="address-details" placeholder="Address"></textarea>
+            </div>
+            <button class="save-btn" onclick="saveAddress()">Save Address</button>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+    <footer>
+        <p>@2025 Class Craft</p>
+        <div class="footer-links">
+            <a href="about.html" class="about-link">About Us</a>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="Logo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Class Craft</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="about.css">
+</head>
+<body>
+    <header>
+        <img src="Logop.png" alt="Logo" width="60" height="60" />
+        <div class="logo">Class Craft</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="index2.html">SHOP</a></li>
+                <li><a href="about.html" class="active" style="background: #b1464a; color: white;">ABOUT US</a></li>
+                <li id="cart-container" style="display: none;"><a href="index4.html" id="cart-link">CART <span class="cart-count">0</span></a></li>
+                <li id="dashboard-container">
+                    <img id="dashboard-pic" src="default-avatar.png" alt="Profile Picture" class="profile-circle" style="width: 60px; height: 60px; border-radius: 50%;">
+                    <a href="index3.html" id="dashboard-link">LOG IN</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            document.querySelector(".cart-count").textContent = cartCount;
+            
+            // Show cart container if user is logged in
+            const user = JSON.parse(localStorage.getItem("loggedInUser"));
+            if (user) {
+                document.getElementById("cart-container").style.display = "list-item";
+            }
+        });
+    </script>
+
+    <main class="about-container">
+        <section class="about-hero">
+            <h1>About Class Craft</h1>
+            <p>Your One-Stop School Supply Shop</p>
+        </section>
+
+        <section class="about-content">
+            <div class="mission">
+                <h2>Our Mission</h2>
+                <p>To provide quality school supplies that inspire learning and creativity while ensuring affordability and accessibility for all students.</p>
+            </div>
+
+            <div class="values">
+                <h2>Our Values</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <h3>Quality</h3>
+                        <p>We ensure all our products meet the highest standards of quality.</p>
+                    </div>
+                    <div class="value-card">
+                        <h3>Affordability</h3>
+                        <p>Making education supplies accessible to every student.</p>
+                    </div>
+                    <div class="value-card">
+                        <h3>Service</h3>
+                        <p>Providing exceptional customer service and support.</p>
+                    </div>
+                    <div class="value-card">
+                        <h3>Innovation</h3>
+                        <p>Continuously improving our products and services.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>@2025 Class Craft</p>
+    </footer>
+
+    <script src="about.js"></script>
+</body>
+</html>

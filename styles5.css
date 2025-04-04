@@ -1,0 +1,343 @@
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(-45deg, #f4e2d8, #e6d2c3, #f8d5cb, #edd3c4);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.container {
+  animation: slideIn 0.5s ease-out;
+}
+
+.container {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 400px;
+  backdrop-filter: blur(10px);
+}
+
+h2 {
+  color: #6b4f4f;
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+.login-text {
+  color: #6b4f4f;
+  margin-bottom: 20px;
+}
+
+.login-text a {
+  color: #b1464a;
+  text-decoration: none;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+label {
+  color: #6b4f4f;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+input {
+  padding: 12px;
+  margin: 8px 0;
+  border: 2px solid #f4e2d8;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+  border-color: #b1464a;
+  outline: none;
+}
+
+input[type="email"]:invalid {
+  border-color: #ff0000;
+  background-color: rgba(255, 0, 0, 0.05);
+}
+
+input:not(:placeholder-shown):valid,
+select:valid:not([value=""]) {
+  border-color: #4CAF50;
+  background-color: rgba(76, 175, 80, 0.05);
+}
+
+input:not(:placeholder-shown):invalid,
+select:invalid {
+  border-color: #ff0000;
+  background-color: rgba(255, 0, 0, 0.05);
+}
+
+.birthday-inputs select:valid:not([value=""]) {
+  border-color: #4CAF50;
+  background-color: rgba(76, 175, 80, 0.05);
+}
+
+.birthday-inputs select:invalid {
+  border-color: #ff0000;
+  background-color: rgba(255, 0, 0, 0.05);
+}
+
+button {
+  background: #b1464a;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  margin-top: 25px;
+  font-weight: bold;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: #222;
+}
+
+.birthday-inputs {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0 20px;
+}
+
+.birthday-inputs select {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #f4e2d8;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    appearance: none;
+    background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M7 10l5 5 5-5z'/></svg>") no-repeat right 10px center;
+}
+
+.birthday-inputs select:focus {
+    border-color: #b1464a;
+    outline: none;
+}
+
+.birthday-inputs select.valid {
+    border-color: #4CAF50;
+    background-color: #f0fff0;
+}
+
+.birthday-inputs select.invalid {
+    border-color: #f44336;
+    background-color: #fff0f0;
+}
+
+.gender-selection {
+    display: flex;
+    gap: 20px;
+    margin: 10px 0 20px;
+}
+
+.gender-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 16px;
+    border: 2px solid #ddd;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.gender-option:hover {
+    border-color: #000;
+}
+
+.gender-option input[type="radio"] {
+    display: none;
+}
+
+.radio-custom {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+}
+
+.radio-custom:after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: #000;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.2s ease;
+}
+
+.gender-option input[type="radio"]:checked + .radio-custom:after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.gender-option input[type="radio"]:checked + .radio-custom {
+    border-color: #000;
+}
+
+.gender-option input[type="radio"]:checked ~ span:last-child {
+    font-weight: bold;
+}
+
+.back-button {
+  text-decoration: none;
+  color: #6b4f4f;
+  font-size: 24px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  transition: color 0.3s;
+}
+
+.back-button:hover {
+  color: #b1464a;
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transform: translateX(150%);
+    transition: transform 0.5s ease;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification.success {
+    border-left: 4px solid #4CAF50;
+}
+
+.notification.error {
+    border-left: 4px solid #f44336;
+}
+
+.notification-icon {
+    font-size: 20px;
+}
+
+.notification-message {
+    color: #333;
+    font-size: 14px;
+    margin: 0;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #f1f1f1;
+    width: 100%;
+    margin-top: 30px;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    main {
+        padding: 10px;
+        min-height: calc(100vh - 60px);
+    }
+
+    .container {
+        width: 95%;
+        padding: 20px 15px;
+        margin: 10px auto;
+        max-width: none;
+    }
+
+    h2 {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    .birthday-inputs {
+        flex-direction: row;
+        gap: 8px;
+    }
+
+    .birthday-inputs select {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .gender-selection {
+        flex-direction: row;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .gender-option {
+        padding: 10px;
+        width: auto;
+    }
+
+    input, textarea {
+        padding: 12px;
+        font-size: 16px;
+        margin: 6px 0 12px;
+    }
+
+    label {
+        font-size: 14px;
+    }
+
+    button[type="submit"] {
+        padding: 14px;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+}

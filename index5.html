@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="Logo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Account</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles5.css">
+</head>
+<body>
+    <main>
+    <div class="container">
+        <a href="index3.html" class="back-button">←</a>
+        <h2>Create New Account</h2>
+        <p class="login-text">Already Registered? <a href="index3.html">Login</a></p>
+        <form id="signup-form">
+            <label for="firstName">FIRST NAME</label>
+            <input type="text" id="firstName" required>
+
+            <label for="middleName">MIDDLE NAME</label>
+            <input type="text" id="middleName" required>
+
+            <label for="lastName">LAST NAME</label>
+            <input type="text" id="lastName" required>
+
+            <label>BIRTHDAY</label>
+            <div class="birthday-inputs">
+                <select id="birthMonth" required>
+                    <option value="">Month</option>
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+                <select id="birthDay" required>
+                    <option value="">Day</option>
+                    <script>
+                        for(let i = 1; i <= 31; i++) {
+                            document.write(`<option value="${i}">${i}</option>`);
+                        }
+                    </script>
+                </select>
+                <select id="birthYear" required>
+                    <option value="">Year</option>
+                    <script>
+                        for(let i = 1960; i <= 2025; i++) {
+                            document.write(`<option value="${i}">${i}</option>`);
+                        }
+                    </script>
+                </select>
+            </div>
+
+            <label>GENDER <span style="color: red">*</span></label>
+            <div class="gender-selection">
+                <label class="gender-option">
+                    <input type="radio" name="gender" value="male" required
+                        oninvalid="this.setCustomValidity('Please select your gender')"
+                        oninput="this.setCustomValidity('')">
+                    <span class="radio-custom"></span>
+                    <span>Male</span>
+                </label>
+                <label class="gender-option">
+                    <input type="radio" name="gender" value="female" required
+                        oninvalid="this.setCustomValidity('Please select your gender')"
+                        oninput="this.setCustomValidity('')">
+                    <span class="radio-custom"></span>
+                    <span>Female</span>
+                </label>
+            </div>
+
+            <label for="email">EMAIL <span style="color: red">*</span></label>
+            <input type="email" id="email" 
+                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" 
+                title="Please enter a valid email address (e.g., example@domain.com)" 
+                required
+                oninvalid="this.setCustomValidity('Please enter a valid email address')"
+                oninput="this.setCustomValidity('')"
+                placeholder="example@domain.com">
+
+            <label for="password">PASSWORD</label>
+            <input type="password" id="password" 
+                pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                title="Password must be at least 8 characters long and include both letters and numbers"
+                required
+                oninvalid="this.setCustomValidity('Password must be at least 8 characters long and include both letters and numbers')"
+                oninput="this.setCustomValidity('')">
+
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+    </main>
+    <script src="script5.js"></script>
+    <footer>
+        <p>@2025 Class Craft</p>
+        <div class="footer-links">
+            <a href="about.html" class="about-link">About Us</a>
+        </div>
+    </footer>
+</body>
+</html>
